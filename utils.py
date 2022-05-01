@@ -42,7 +42,8 @@ def train(args, model, criterion, train_loader, valid_loader, validation, init_o
     optimizer = init_optimizer(lr)
 
     root = Path(args.root)
-    model_path =  root / 'model_{fold}.pt'.format(fold=fold)
+    (root / str(model) ).mkdir(exist_ok=True, parents=True)
+    model_path = root / '{model}_{args.type}_model_{fold}.pt'.format(fold=fold)
     if model_path.exists():
         state = torch.load(str(model_path))
         epoch = state['epoch']
