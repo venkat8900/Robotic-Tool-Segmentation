@@ -5,7 +5,7 @@ import argparse
 from prepare_train_val import get_split
 from dataset import RoboticsDataset
 import cv2
-from models import UNet16, LinkNet34, UNet11, UNet, AlbuNet
+from models import UNet16, LinkNet34, UNet11, UNet, AlbuNet, UNetCSE, UNetSSE, UNetSCSE
 import torch
 from pathlib import Path
 from tqdm import tqdm
