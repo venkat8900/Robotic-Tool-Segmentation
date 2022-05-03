@@ -50,6 +50,12 @@ def get_model(model_path, model_type='UNet11', problem_type='binary'):
         model = LinkNet34(num_classes=num_classes)
     elif model_type == 'AlbuNet':
         model = AlbuNet(num_classes=num_classes)
+    elif model_type == 'UNetCSE':
+        model = UNetCSE(num_classes=num_classes)
+    elif model_type == 'UNetSSE':
+        model = UNetSSE(num_classes=num_classes)
+    elif model_type == 'UNetSCSE':
+        model = UNetSCSE(num_classes=num_classes)
     elif model_type == 'UNet':
         model = UNet(num_classes=num_classes)
 
