@@ -5,7 +5,7 @@ import argparse
 from prepare_train_val import get_split
 from dataset import RoboticsDataset
 import cv2
-from models import UNet16, LinkNet34, UNet11, UNet, AlbuNet, UNetCSE, UNetSSE, UNetSCSE
+from models import UNet16, LinkNet34, UNet11, UNet, AlbuNet, UNetCSE, UNetSSE, UNetSCSE, UNetResidualSCSE
 import torch
 from pathlib import Path
 from tqdm import tqdm
@@ -56,6 +56,8 @@ def get_model(model_path, model_type='UNet11', problem_type='binary'):
         model = UNetSSE(num_classes=num_classes)
     elif model_type == 'UNetSCSE':
         model = UNetSCSE(num_classes=num_classes)
+    elif model_type == 'UNetResidualSCSE':
+        model = UNetResidualSCSE(num_classes=num_classes)
     elif model_type == 'UNet':
         model = UNet(num_classes=num_classes)
 
@@ -114,7 +116,7 @@ if __name__ == '__main__':
     arg = parser.add_argument
     arg('--model_path', type=str, default='data/models/UNet', help='path to model folder')
     arg('--model_type', type=str, default='UNet', help='network architecture',
-        choices=['UNet', 'UNet11', 'UNet16', 'LinkNet34', 'AlbuNet'])
+        choices=['UNet', 'UNet11', 'UNet16', 'LinkNet34', 'AlbuNet', 'UNetCSE', 'UNetSCSE', 'UNetSSE', 'UNetResidualSCSE'])
     arg('--output_path', type=str, help='path to save images', default='1')
     arg('--batch-size', type=int, default=4)
     arg('--fold', type=int, default=-1, choices=[0, 1, 2, 3, -1], help='-1: all folds')

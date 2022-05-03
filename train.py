@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
 import torch.backends.cudnn
 
-from models import UNet11, LinkNet34, UNet, UNet16, AlbuNet, UNetCSE, UNetSSE, UNetSCSE
+from models import UNet11, LinkNet34, UNet, UNet16, AlbuNet, UNetCSE, UNetSSE, UNetSCSE,UNetResidualSCSE
 from loss import LossBinary, LossMulti
 from dataset import RoboticsDataset
 import utils
@@ -40,7 +40,8 @@ moddel_list = {'UNet11': UNet11,
                'LinkNet34': LinkNet34,
                'UNetCSE': UNetCSE,
                'UNetSSE': UNetSSE,
-               'UNetSCSE': UNetSCSE}
+               'UNetSCSE': UNetSCSE,
+               'UNetResidualSCSE': UNetResidualSCSE}
 
 
 

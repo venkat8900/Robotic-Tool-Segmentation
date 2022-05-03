@@ -600,7 +600,7 @@ class UNetCSE(nn.Module):
 
     def forward(self, x):
         x1 = self.inc(x)
-        cse1 = self.cse1(x1)
+        x1 = self.cse1(x1)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
@@ -753,7 +753,7 @@ class UNetSSE(nn.Module):
 
     def forward(self, x):
         x1 = self.inc(x)
-        cse1 = self.sse1(x1)
+        x1 = self.sse1(x1)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
@@ -890,7 +890,7 @@ class UNetSCSE(nn.Module):
 
     def forward(self, x):
         x1 = self.inc(x)
-        cse1 = self.scse1(x1)
+        x1 = self.scse1(x1)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
@@ -902,3 +902,74 @@ class UNetSCSE(nn.Module):
         logits = self.outc(x)
         return logits
 
+
+########## SCSE with residual connections
+class ResidualSCSEDoubleConv(nn.Module):
+    """(convolution => [BN] => ReLU) * 2"""
+
+    def __init__(self, in_channels, out_channels, mid_channels=None):
+        super().__init__()
+        if not mid_channels:
+            mid_channels = out_channels
+        # self.double_conv_residualscse = nn.Sequential(
+        #     nn.Conv2d(in_channels, mid_channels, kernel_size=3, padding=1, bias=False),
+        #     nn.BatchNorm2d(mid_channels),
+        #     nn.ReLU(inplace=True),
+        #     nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1, bias=False),
+        #     nn.BatchNorm2d(out_channels),
+        #     nn.ReLU(inplace=True)
+        # )
+        self.conv1 = nn.Conv2d(in_channels, mid_channels, kernel_size=3, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(mid_channels)
+        self.relu = nn.ReLU(inplace = True)
+        self.conv2 = nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(out_channels)
+        self.r1 = torch.cat()
+        self.scse1 = ChannelSpatialSELayer(64)
+        
+
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out_1 = self.relu(out)
+        out = self.conv2(out_1)
+        out = self.bn2(out)
+        out = self.scse(out)
+        out = torch.cat((out_1, out), dim = 1)
+
+        return out
+
+
+class UNetResidualSCSE(nn.Module):
+    def __init__(self, num_classes = 1, num_channels = 3, bilinear=False):
+        super(UNetSCSE, self).__init__()
+        self.num_channels = num_channels
+        self.num_classes = num_classes
+        self.bilinear = bilinear
+
+        self.inc = ResidualSCSEDoubleConv(num_channels, 64)
+        # self.scse1 = ChannelSpatialSELayer(64)
+        self.down1 = Down(64, 128)
+        self.down2 = Down(128, 256)
+        self.down3 = Down(256, 512)
+        factor = 2 if bilinear else 1
+        self.down4 = Down(512, 1024 // factor)
+        self.up1 = Up(1024, 512 // factor, bilinear)
+        self.up2 = Up(512, 256 // factor, bilinear)
+        self.up3 = Up(256, 128 // factor, bilinear)
+        self.up4 = Up(128, 64, bilinear)
+        self.outc = OutConv(64, num_classes)
+
+    def forward(self, x):
+        x1 = self.inc(x)
+        # x1 = self.scse1(x1)
+        x2 = self.down1(x1)
+        x3 = self.down2(x2)
+        x4 = self.down3(x3)
+        x5 = self.down4(x4)
+        x = self.up1(x5, x4)
+        x = self.up2(x, x3)
+        x = self.up3(x, x2)
+        x = self.up4(x, x1)
+        logits = self.outc(x)
+        return logits
