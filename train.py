@@ -18,6 +18,8 @@ import utils
 import sys
 from prepare_train_val import get_split
 
+import torch
+from GPUtil import showUtilization as gpu_usage
 
 from albumentations import (
     HorizontalFlip,
@@ -26,7 +28,9 @@ from albumentations import (
     Compose,
     PadIfNeeded,
     RandomCrop,
-    CenterCrop
+    CenterCrop,
+    #Resize ##Added
+    
 )
 
 moddel_list = {'UNet11': UNet11,
@@ -127,7 +131,9 @@ def main():
             RandomCrop(height=args.train_crop_height, width=args.train_crop_width, p=1),
             VerticalFlip(p=0.5),
             HorizontalFlip(p=0.5),
-            Normalize(p=1)
+            Normalize(p=1),
+            #Downscale(),
+            #Resize(750,750)
         ], p=p)
 
     def val_transform(p=1):
@@ -149,7 +155,13 @@ def main():
         valid = validation_binary
     else:
         valid = validation_multi
-
+    print("Initial GPU Usage")
+    gpu_usage() 
+    
+    torch.cuda.empty_cache()
+    
+    print("Initial GPU Usage")
+    gpu_usage() 
     utils.train(
         init_optimizer=lambda lr: Adam(model.parameters(), lr=lr),
         args=args,
@@ -159,9 +171,10 @@ def main():
         valid_loader=valid_loader,
         validation=valid,
         fold=args.fold,
-        num_classes=num_classes
+        num_classes=num_classes,
+        model_name=model_name
     )
-
+	
 
 if __name__ == '__main__':
     main()

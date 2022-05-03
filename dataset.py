@@ -50,7 +50,9 @@ def load_mask(path, problem_type):
     elif problem_type == 'instruments':
         factor = prepare_data.instrument_factor
         mask_folder = 'instruments_masks'
-
-    mask = cv2.imread(str(path).replace('images', mask_folder).replace('jpg', 'png'), 0)
-
+        
+    # print(path)
+    
+    mask = cv2.imread(str(path).replace('images', mask_folder).replace('jpg','png'), 0)
+    # print(str(path).replace('images', mask_folder))
     return (mask / factor).astype(np.uint8)
