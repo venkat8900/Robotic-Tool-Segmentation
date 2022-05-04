@@ -329,7 +329,6 @@ class UNetModule(nn.Module):
 class UNet(nn.Module):
     """
     Vanilla UNet.
-
     Implementation from https://github.com/lopuhin/mapillary-vistas-2017/blob/master/unet_models.py
     """
     output_downscaled = 1
@@ -924,18 +923,29 @@ class ResidualSCSEDoubleConv(nn.Module):
         self.relu = nn.ReLU(inplace = True)
         self.conv2 = nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(out_channels)
-        self.r1 = torch.cat()
-        self.scse1 = ChannelSpatialSELayer(64)
+       
+        self.cse1 = ChannelSELayer(64)
         
 
     def forward(self, x):
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out_1 = self.relu(out)
-        out = self.conv2(out_1)
+        out_1 = self.conv1(x)
+        out = self.bn1(out_1)
+        out = self.relu(out)
+        # print(out.shape)
+        out = self.conv2(out)
         out = self.bn2(out)
-        out = self.scse(out)
-        out = torch.cat((out_1, out), dim = 1)
+        out = self.relu(out)
+        # print(out.shape)
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu(out)
+        # print(out.shape)
+        # print(out_1.shape)
+        #out = torch.cat((out_1, out), dim = 1)
+        out = out + out_1
+        
+        out = self.cse1(out)
+        
 
         return out
 
