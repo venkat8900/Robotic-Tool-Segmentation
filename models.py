@@ -942,7 +942,7 @@ class ResidualSCSEDoubleConv(nn.Module):
 
 class UNetResidualSCSE(nn.Module):
     def __init__(self, num_classes = 1, num_channels = 3, bilinear=False):
-        super(UNetSCSE, self).__init__()
+        super(UNetResidualSCSE, self).__init__()
         self.num_channels = num_channels
         self.num_classes = num_classes
         self.bilinear = bilinear
