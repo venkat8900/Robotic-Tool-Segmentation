@@ -72,11 +72,12 @@ if __name__ == '__main__':
                     mask_instruments[mask > 0] = 7
 
                 if 'Other' not in str(mask_folder):
-                    mask_binary += mask
+                    # mask_binary += mask
 
                     mask_parts[mask == 10] = 1  # Shaft
                     mask_parts[mask == 20] = 2  # Wrist
                     mask_parts[mask == 30] = 3  # Claspers
+                mask_binary += mask
 
             mask_binary = (mask_binary[h_start: h_start + height, w_start: w_start + width] > 0).astype(
                 np.uint8) * binary_factor
