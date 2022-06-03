@@ -2,10 +2,6 @@
 MICCAI 2017 Robotic Instrument Segmentation
 ===========================================
 
-Base Code taken from: https://github.com/ternaus/robot-surgery-segmentation, https://github.com/ai-med/squeeze_and_excitation
-
-New Additons: Extended base U-Net architecture with Spatial Squeeze and Channel Excitations, Channel Squeeze and Spatial Excitation, Concurrent Spatial and Channel Squeeze and Channel Excitation blocks. 
-
 Data
 ----
 The training dataset consists of 8 x 225-frame sequences of high resolution stereo camera images acquired from a da Vinci Xi surgical system during several different porcine procedures. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 x 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
@@ -16,12 +12,14 @@ The training dataset consists of 8 x 225-frame sequences of high resolution ster
 
 * Based on the mappings, we generate ground truth masks to train the model. 
 
+* Dataset: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org
+
 .. figure:: images/Sample_Data.png
     :scale: 65 %
 
 Method
 ------
-We evaluate 4 different deep architectures for segmentation: We use `U-Net`_, as our base model. We extend U-net with patial Squeeze and Channel Excitations, Channel Squeeze and Spatial Excitation, Concurrent Spatial and Channel Squeeze and Channel Excitation blocks. 
+We evaluate 4 different deep architectures for segmentation: We use U-Net, as our base model. We extend U-net with patial Squeeze and Channel Excitations, Channel Squeeze and Spatial Excitation, Concurrent Spatial and Channel Squeeze and Channel Excitation blocks. 
 
 .. figure:: images/Methods.png
     :scale: 65 %
@@ -148,6 +146,9 @@ The evaluation is different for a binary and multi-class segmentation:
 
 Results
 ------------
+
+Results for Binary Segmentation task are added. Same code can be used to train and test Instrument type, Instrument part Segmentation tasks. Make sure you modify the "--type" in the commandline.  Models are trained with Batch Size of 4, 20 epochs. 
+
 Original Mask
 
 .. raw:: html
@@ -194,6 +195,15 @@ DR-SCSE Mask
     <figure>
         <img src="images/DRSCSE Mask.gif" align="center" title="DR-SCSE Mask"/>
     </figure>
+
+
+References
+----------
+* Base Code taken from: https://github.com/ternaus/robot-surgery-segmentation, https://github.com/ai-med/squeeze_and_excitation
+* Abhijit Guha Roy, Sailesh Conjeti, Nassir Navab, Christian Wachinger, Alzheimer’s Disease Neuroimaging Initiative, et al. Quicknat: A fully convolutional network for quick and accurate segmentation of neuroanatomy.
+* Jie Hu, Li Shen, and Gang Sun. Squeeze-and-excitation networks. In Proceedings of the IEEE conference on computer vision and pattern recognition, pages 7132–7141, 2018
+* Dataset: https://endovissub2017-roboticinstrumentsegmentation.grand-challenge.org
+
 
 
 
