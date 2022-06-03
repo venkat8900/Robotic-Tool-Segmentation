@@ -148,38 +148,38 @@ The evaluation is different for a binary and multi-class segmentation:
 
 Results
 ------------
-
+Original Mask
 .. raw:: html
 
     <figure>
         <img src="images/Original Masks.gif" align="center" title="Original Mask"/>
     </figure>
 
-
+UNet Mask
 .. raw:: html
 
     <figure>
         <img src="images/Unet Mask.gif" align="center" title="UNet Mask"/>
     </figure>
-
+CSE Mask
 .. raw:: html
 
     <figure>
         <img src="images/CSE Mask.gif" align="center" title="CSE Mask"/>
     </figure>
-
+SSE Mask
 .. raw:: html
 
     <figure>
         <img src="images/SSE Mask.gif" align="center" title="SSE Mask"/>
     </figure>
-
+SCSE Mask
 .. raw:: html
 
     <figure>
         <img src="images/SCSE Mask.gif" align="center" title="SCSE Mask"/>
     </figure>
-
+DR-SCSE Mask
 .. raw:: html
 
     <figure>
