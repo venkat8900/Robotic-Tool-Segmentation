@@ -8,15 +8,13 @@ New Additons: Extended base U-Net architecture with Spatial Squeeze and Channel 
 
 Data
 ----
-The training dataset consists of 8 |times| 225-frame sequences of high resolution stereo camera images acquired from a `da Vinci Xi surgical system`_ during several different porcine procedures. Training sequences are provided with 2 Hz frame rate to avoid redundancy. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 |times| 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
+The training dataset consists of 8 x 225-frame sequences of high resolution stereo camera images acquired from a da Vinci Xi surgical system during several different porcine procedures. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 x 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
 
-.. class:: center
+Images are cropped from (320, 28) to extract 1280 x 1024 dimension camera images.
 
-    |gif1| |gif2|
-    |br|
-    |gif3| |gif4|
-    |br|
-    Original sequence (top left). Binary segmentation, 2-class (top right). Parts, 3-class (bottom left). Instruments, 7-class (bottom right)
+Three Sub Challenges: Binary Instrument Segmentation, Instrument Part Segmentation, Instrument Type Segmentation.
+
+Based on the mappings, we generate ground truth masks to train the model. 
 
 Method
 ------
