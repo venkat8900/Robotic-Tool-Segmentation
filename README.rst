@@ -10,11 +10,11 @@ Data
 ----
 The training dataset consists of 8 x 225-frame sequences of high resolution stereo camera images acquired from a da Vinci Xi surgical system during several different porcine procedures. Every video sequence consists of two stereo channels taken from left and right cameras and has a 1920 x 1080 pixel resolution in RGB format. The articulated parts of the robotic surgical instruments, such as a rigid shaft, an articulated wrist and claspers have been hand labelled in each frame. Furthermore, there are instrument type labels that categorize instruments in following categories: left/right prograsp forceps, monopolar curved scissors, large needle driver, and a miscellaneous category for any other surgical instruments.
 
-Images are cropped from (320, 28) to extract 1280 x 1024 dimension camera images.
+* Images are cropped from (320, 28) to extract 1280 x 1024 dimension camera images.
 
-Three Sub Challenges: Binary Instrument Segmentation, Instrument Part Segmentation, Instrument Type Segmentation.
+* Three Sub Challenges: Binary Instrument Segmentation, Instrument Part Segmentation, Instrument Type Segmentation.
 
-Based on the mappings, we generate ground truth masks to train the model. 
+* Based on the mappings, we generate ground truth masks to train the model. 
 
 .. figure:: images/Sample_Data.png
     :scale: 65 %
@@ -23,6 +23,13 @@ Method
 ------
 We evaluate 4 different deep architectures for segmentation: We use `U-Net`_, as our base model. We extend U-net with patial Squeeze and Channel Excitations, Channel Squeeze and Spatial Excitation, Concurrent Spatial and Channel Squeeze and Channel Excitation blocks. 
 
+.. figure:: images/Methods.png
+    :scale: 65 %
+
+Model architecture
+------------------
+.. figure:: images/Architecture.png
+    :scale: 65 %
 
 Training
 --------
@@ -137,6 +144,47 @@ The evaluation is different for a binary and multi-class segmentation:
 ::
 
     python evaluate.py --target_path predictions/unet --problem_type binary --train_path data/cropped_train
+
+
+Results
+------------
+
+.. raw:: html
+
+    <figure>
+        <img src="images/Original Masks.gif" align="center" title="Original Mask"/>
+    </figure>
+
+
+.. raw:: html
+
+    <figure>
+        <img src="images/Unet Mask.gif" align="center" title="UNet Mask"/>
+    </figure>
+
+.. raw:: html
+
+    <figure>
+        <img src="images/CSE Mask.gif" align="center" title="CSE Mask"/>
+    </figure>
+
+.. raw:: html
+
+    <figure>
+        <img src="images/SSE Mask.gif" align="center" title="SSE Mask"/>
+    </figure>
+
+.. raw:: html
+
+    <figure>
+        <img src="images/SCSE Mask.gif" align="center" title="SCSE Mask"/>
+    </figure>
+
+.. raw:: html
+
+    <figure>
+        <img src="images/DRSCSE Mask.gif" align="center" title="DR-SCSE Mask"/>
+    </figure>
 
 
 
