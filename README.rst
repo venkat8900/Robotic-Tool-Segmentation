@@ -16,11 +16,8 @@ Three Sub Challenges: Binary Instrument Segmentation, Instrument Part Segmentati
 
 Based on the mappings, we generate ground truth masks to train the model. 
 
-.. raw:: html
-
-    <figure>
-        <img src="images/sample_data.png" align="center"/>
-    </figure>
+.. figure:: images/Sample_Data.png
+    :scale: 65 %
 
 Method
 ------
