@@ -16,6 +16,12 @@ Three Sub Challenges: Binary Instrument Segmentation, Instrument Part Segmentati
 
 Based on the mappings, we generate ground truth masks to train the model. 
 
+.. raw:: html
+
+    <figure>
+        <img src="images/sample_data.png" align="center"/>
+    </figure>
+
 Method
 ------
 We evaluate 4 different deep architectures for segmentation: We use `U-Net`_, as our base model. We extend U-net with patial Squeeze and Channel Excitations, Channel Squeeze and Spatial Excitation, Concurrent Spatial and Channel Squeeze and Channel Excitation blocks. 
